@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PandoraBox</string>
+    <string name="ble_disconnected">断开连接</string>
+    <string name="ble_connected">已连接</string>
 </resources>
