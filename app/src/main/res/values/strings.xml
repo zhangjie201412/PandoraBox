@@ -1,5 +1,23 @@
 <resources>
-    <string name="app_name">PandoraBox</string>
+    <string name="app_name">程序降温仪</string>
+    <string name="ok_string">确定</string>
+    <string name="cancel_string">取消</string>
+    <string name="notice_app_exit">再按一次退出程序</string>
     <string name="ble_disconnected">断开连接</string>
     <string name="ble_connected">已连接</string>
+    <string name="settings">设置</string>
+    <string name="exit_app">退出应用</string>
+    <string name="add">添加</string>
+    <string name="save">保存</string>
+    <string name="apply">应用</string>
+    <string name="preview">预览</string>
+    <string name="index">序号</string>
+    <string name="title_index">序号</string>
+    <string name="title_speed">速率[℃/分]</string>
+    <string name="title_keep">恒温[℃]</string>
+    <string name="title_time">时间[分钟]</string>
+    <string name="setting_chart_description">单位: 分钟</string>
+    <string name="temperature_unit">温度: ℃</string>
+    <!--notice-->
+    <string name="notice_input_invalid">输入无效</string>
 </resources>

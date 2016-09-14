@@ -1,6 +1,5 @@
 package com.android.jay.pandorabox;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,17 +10,29 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
 
 /**
  * Created by H151136 on 9/13/2016.
  */
+@ContentView(R.layout.activity_home)
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
+    @ViewInject(R.id.nv_drawer)
     private NavigationView mNavigationView;
+    @ViewInject(R.id.drawer)
     private DrawerLayout mDrawerLayout;
+    @ViewInject(R.id.iv_settings)
     private ImageView mSettings;
+    @ViewInject(R.id.bt_exit_app)
+    private Button mExitAppButton;
+    @ViewInject(R.id.bt_settings)
+    private Button mSettingsButton;
 
     private long mTime = 0;
     private boolean mIsOpen = false;
@@ -29,16 +40,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
-                WindowManager.LayoutParams. FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_home);
-        mNavigationView = (NavigationView)findViewById(R.id.nv_drawer);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer);
-        mSettings = (ImageView)findViewById(R.id.iv_settings);
         mTime = 0;
-
         mSettings.setOnClickListener(this);
+        mSettingsButton.setOnClickListener(this);
+        mExitAppButton.setOnClickListener(this);
         mNavigationView.setItemIconTintList(null);
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -72,7 +77,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 return true;
             } else {
                 if ((System.currentTimeMillis() - mTime > 1000)) {
-                    Toast.makeText(this, "再按一次返回桌面", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.notice_app_exit, Toast.LENGTH_SHORT).show();
                     mTime = System.currentTimeMillis();
                 } else {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -95,6 +100,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
 
+            case R.id.bt_settings:
+                Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }

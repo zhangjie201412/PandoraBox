@@ -7,4 +7,14 @@
     <dimen name="title_text_size">16sp</dimen>
     <dimen name="icon_width_size">60dp</dimen>
     <dimen name="icon_height_size">60dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="button_min_height">30dp</dimen>
+    <dimen name="button_margin_left_right">20dp</dimen>
+    <dimen name="button_margin_top_bottom">10dp</dimen>
+    <dimen name="button_margin">10dp</dimen>
+    <dimen name="dialog_margin">12dp</dimen>
+    <dimen name="dialog_margin_x2">12dp</dimen>
+    <dimen name="dialog_textsize">18sp</dimen>
+    <dimen name="dialog_margin_left">10dp</dimen>
+    <dimen name="dialog_margin_right">10dp</dimen>
 </resources>
