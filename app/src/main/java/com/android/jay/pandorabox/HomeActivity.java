@@ -1,5 +1,6 @@
 package com.android.jay.pandorabox;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,11 @@ import com.android.jay.pandorabox.Utils.Utils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.io.File;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by H151136 on 9/13/2016.
@@ -69,6 +75,31 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+        checkPermissions();
+    }
+
+    private static final int RC_ROOT = 102;
+    @AfterPermissionGranted(RC_ROOT)
+    public void checkPermissions() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+        boolean[] allows = new boolean[permissions.length];
+        for(int i = 0; i < permissions.length; i++) {
+            if(EasyPermissions.hasPermissions(this, permissions[i])) {
+                allows[i] = true;
+            } else {
+                allows[i] = false;
+            }
+        }
+        boolean result = true;
+        for(int i = 0; i < permissions.length; i++) {
+            result &= allows[i];
+        }
+
+        if(!result) {
+            EasyPermissions.requestPermissions(this, "Root", RC_ROOT, permissions[0], permissions[1], permissions[2]);
+        }
     }
 
     @Override
