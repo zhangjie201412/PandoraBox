@@ -1,5 +1,6 @@
 package com.android.jay.pandorabox;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.jay.pandorabox.Utils.Utils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -103,6 +106,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.bt_settings:
                 Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.bt_exit_app:
+                Utils.showAlertDialog(this, R.string.exit_app, R.string.sure_to_exit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        HomeActivity.this.finish();
+                    }
+                });
                 break;
             default:
                 break;

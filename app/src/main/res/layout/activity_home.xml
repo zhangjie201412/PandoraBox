@@ -53,7 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/icon_margin_start"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_settings" />
+                    android:src="@mipmap/actionbar_menu" />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

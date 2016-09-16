@@ -26,6 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="@dimen/icon_width_size"
+                    android:layout_height="@dimen/icon_height_size"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/icon_margin_start"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/actionbar_back" />
                 <TextView
                     android:id="@+id/tv_ble_status"
                     android:layout_width="wrap_content"
@@ -34,6 +42,16 @@
                     android:layout_centerVertical="true"
                     android:text="@string/settings"
                     android:textColor="@color/title_text"
+                    android:textSize="@dimen/title_text_size" />
+                <TextView
+                    android:id="@+id/tv_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/icon_margin_start"
+                    android:textColor="@color/title_text"
+                    android:text="@string/open"
                     android:textSize="@dimen/title_text_size" />
 
             </RelativeLayout>
@@ -135,16 +153,16 @@
                         android:text="@string/apply"
                         android:textColor="@color/button_text_color" />
 
-                    <Button
-                        android:id="@+id/bt_preview"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/button_margin"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_button"
-                        android:minHeight="@dimen/button_min_height"
-                        android:text="@string/preview"
-                        android:textColor="@color/button_text_color" />
+                    <!--<Button-->
+                        <!--android:id="@+id/bt_preview"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="@dimen/button_margin"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/bg_button"-->
+                        <!--android:minHeight="@dimen/button_min_height"-->
+                        <!--android:text="@string/preview"-->
+                        <!--android:textColor="@color/button_text_color" />-->
                 </LinearLayout>
 
                 <ListView

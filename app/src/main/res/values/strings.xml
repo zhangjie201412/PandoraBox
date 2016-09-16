@@ -18,6 +18,16 @@
     <string name="title_time">时间[分钟]</string>
     <string name="setting_chart_description">单位: 分钟</string>
     <string name="temperature_unit">温度: ℃</string>
+    <string name="delete">删除</string>
+    <string name="sure_to_delete">确定删除?</string>
+    <string name="sure_to_exit">确定退出?</string>
+    <string name="name">名称</string>
+    <string name="open">打开</string>
     <!--notice-->
     <string name="notice_input_invalid">输入无效</string>
+    <string name="notice_data_null">设置为空</string>
+    <string name="notice_open_null">没有保存记录</string>
+    <string name="notice_delete_done">删除成功</string>
+    <string name="notice_save_done">保存成功</string>
+    <string name="notice_apply_done">已应用为当前设置</string>
 </resources>
