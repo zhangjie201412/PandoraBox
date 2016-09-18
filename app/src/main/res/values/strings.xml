@@ -23,6 +23,19 @@
     <string name="sure_to_exit">确定退出?</string>
     <string name="name">名称</string>
     <string name="open">打开</string>
+    <string name="stage">阶段</string>
+    <string name="speed">速度</string>
+    <string name="target_temperature">目标温度</string>
+    <string name="keep_time">保持时间</string>
+    <string name="start">开始</string>
+    <string name="stop">停止</string>
+    <string name="internal_temperature">箱内温度</string>
+    <string name="external_temperature">外部温度</string>
+    <string name="sample_temperature">样品温度</string>
+    <string name="ssr1">电磁阀1:</string>
+    <string name="ssr2">电磁阀2:</string>
+    <string name="heater">电热丝:</string>
+    <string name="main_no_data_text">点击开始</string>
     <!--notice-->
     <string name="notice_input_invalid">输入无效</string>
     <string name="notice_data_null">设置为空</string>

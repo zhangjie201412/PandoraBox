@@ -17,4 +17,8 @@
     <dimen name="dialog_textsize">18sp</dimen>
     <dimen name="dialog_margin_left">10dp</dimen>
     <dimen name="dialog_margin_right">10dp</dimen>
+    <dimen name="drawer_height">90dp</dimen>
+    <dimen name="progressbar_padding_left_right">5dp</dimen>
+    <dimen name="progressbar_padding_top_bottom">10dp</dimen>
+    <dimen name="progressbar_text_size">9sp</dimen>
 </resources>

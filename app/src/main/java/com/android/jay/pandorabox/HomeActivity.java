@@ -14,9 +14,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.jay.pandorabox.Utils.Utils;
+import com.android.jay.pandorabox.view.MyProgressBar;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -42,6 +46,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private Button mExitAppButton;
     @ViewInject(R.id.bt_settings)
     private Button mSettingsButton;
+    @ViewInject(R.id.bar_ssr1)
+    private MyProgressBar mSsr1;
+    @ViewInject(R.id.bar_ssr2)
+    private MyProgressBar mSsr2;
+    @ViewInject(R.id.bar_heater)
+    private MyProgressBar mHeater;
+    @ViewInject(R.id.chart_main)
+    private LineChart mLineChart;
 
     private long mTime = 0;
     private boolean mIsOpen = false;
@@ -75,6 +87,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+        mSsr1.setTile(getString(R.string.ssr1));
+        mSsr2.setTile(getString(R.string.ssr2));
+        mHeater.setTile(getString(R.string.heater));
+//        mLineChart.setNoDataText(getString(R.string.main_no_data_text));
+        mLineChart.setDescription(getString(R.string.setting_chart_description));
+        mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         checkPermissions();
     }
 

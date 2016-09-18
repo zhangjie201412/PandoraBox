@@ -57,22 +57,170 @@
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
-        <FrameLayout
-            android:id="@+id/main_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layout_bottom_controller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/stage" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/speed" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/target_temperature" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/keep_time" />
+
+                <Button
+                    android:id="@+id/bt_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button"
+                    android:minHeight="@dimen/button_min_height"
+                    android:text="@string/start"
+                    android:textColor="@color/button_text_color" />
+
+                <Button
+                    android:id="@+id/bt_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button"
+                    android:minHeight="@dimen/button_min_height"
+                    android:text="@string/stop"
+                    android:textColor="@color/button_text_color" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/layout_bottom_controller">
+
+                <LinearLayout
+                    android:id="@+id/layout_controller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_internal_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/button_margin"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/internal_temperature" />
+
+                    <TextView
+                        android:id="@+id/tv_sample_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/button_margin"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sample_temperature" />
+
+                    <TextView
+                        android:id="@+id/tv_external_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/button_margin"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/external_temperature" />
+
+                    <com.android.jay.pandorabox.view.MyProgressBar
+                        android:id="@+id/bar_ssr1"
+                        style="@style/ProgressBar_Mini"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingBottom="@dimen/progressbar_padding_top_bottom"
+                        android:paddingLeft="@dimen/progressbar_padding_left_right"
+                        android:paddingRight="@dimen/progressbar_padding_left_right"
+                        android:paddingTop="@dimen/progressbar_padding_top_bottom"
+                        android:progress="50" />
+
+                    <com.android.jay.pandorabox.view.MyProgressBar
+                        android:id="@+id/bar_ssr2"
+                        style="@style/ProgressBar_Mini"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingBottom="@dimen/progressbar_padding_top_bottom"
+                        android:paddingLeft="@dimen/progressbar_padding_left_right"
+                        android:paddingRight="@dimen/progressbar_padding_left_right"
+                        android:paddingTop="@dimen/progressbar_padding_top_bottom"
+                        android:progress="50" />
+
+                    <com.android.jay.pandorabox.view.MyProgressBar
+                        android:id="@+id/bar_heater"
+                        style="@style/ProgressBar_Mini"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingBottom="@dimen/progressbar_padding_top_bottom"
+                        android:paddingLeft="@dimen/progressbar_padding_left_right"
+                        android:paddingRight="@dimen/progressbar_padding_left_right"
+                        android:paddingTop="@dimen/progressbar_padding_top_bottom"
+                        android:progress="50" />
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/layout_controller"></com.github.mikephil.charting.charts.LineChart>
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nv_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="end"
         app:headerLayout="@layout/nv_drawer_header"
-        app:menu="@menu/nv_drawer_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        app:menu="@menu/nv_drawer_menu">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,22 +233,24 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/settings"
                     android:background="@color/color_button"
+                    android:text="@string/settings"
                     android:textSize="@dimen/button_text_size" />
+
                 <TextView
                     android:layout_width="1.0dp"
                     android:layout_height="fill_parent"
                     android:layout_marginBottom="14.0dip"
                     android:layout_marginTop="14.0dip"
                     android:background="@color/button_text_color" />
+
                 <Button
                     android:id="@+id/bt_exit_app"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/exit_app"
                     android:background="@color/color_button"
+                    android:text="@string/exit_app"
                     android:textSize="@dimen/button_text_size" />
             </LinearLayout>
         </RelativeLayout>
