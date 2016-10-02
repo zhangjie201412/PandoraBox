@@ -3,6 +3,7 @@ package com.android.jay.pandorabox;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,12 +21,19 @@ import android.widget.Toast;
 import com.android.jay.pandorabox.Utils.Utils;
 import com.android.jay.pandorabox.view.MyProgressBar;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -90,32 +98,74 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mSsr1.setTile(getString(R.string.ssr1));
         mSsr2.setTile(getString(R.string.ssr2));
         mHeater.setTile(getString(R.string.heater));
-//        mLineChart.setNoDataText(getString(R.string.main_no_data_text));
+        mSsr1.setProgress(0);
+        mSsr2.setProgress(0);
+        mHeater.setProgress(0);
         mLineChart.setDescription(getString(R.string.setting_chart_description));
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        initChart();
         checkPermissions();
     }
 
+    private void initChart() {
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisMinValue(0);
+        xAxis.setAxisMaxValue(240);
+        mLineChart.setVisibleXRange(0, 20);
+
+        YAxis yAxis = mLineChart.getAxisLeft();
+        yAxis.setAxisMinValue(-200);
+        yAxis.setAxisMaxValue(100);
+
+        ArrayList<Entry> values = new ArrayList<>();
+
+        LineDataSet dataSet;
+        dataSet = new LineDataSet(values, getString(R.string.temperature_unit));
+        dataSet.setColor(Color.GREEN);
+        dataSet.setCircleColor(Color.GREEN);
+        dataSet.setLineWidth(1f);
+        dataSet.setCircleRadius(0.5f);
+        dataSet.setDrawCircleHole(false);
+        dataSet.setValueTextSize(9f);
+        dataSet.setDrawFilled(false);
+        dataSet.setLineWidth(1f);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+
+        Legend legend = mLineChart.getLegend();
+        legend.setEnabled(true);
+        legend.setPosition(Legend.LegendPosition.ABOVE_CHART_LEFT);
+        legend.setForm(Legend.LegendForm.SQUARE);
+        legend.setTextColor(Color.GREEN);
+
+        LineData data = new LineData(dataSets);
+
+        mLineChart.setData(data);
+        mLineChart.invalidate();
+    }
+
     private static final int RC_ROOT = 102;
+
     @AfterPermissionGranted(RC_ROOT)
     public void checkPermissions() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
         boolean[] allows = new boolean[permissions.length];
-        for(int i = 0; i < permissions.length; i++) {
-            if(EasyPermissions.hasPermissions(this, permissions[i])) {
+        for (int i = 0; i < permissions.length; i++) {
+            if (EasyPermissions.hasPermissions(this, permissions[i])) {
                 allows[i] = true;
             } else {
                 allows[i] = false;
             }
         }
         boolean result = true;
-        for(int i = 0; i < permissions.length; i++) {
+        for (int i = 0; i < permissions.length; i++) {
             result &= allows[i];
         }
 
-        if(!result) {
+        if (!result) {
             EasyPermissions.requestPermissions(this, "Root", RC_ROOT, permissions[0], permissions[1], permissions[2]);
         }
     }

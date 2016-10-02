@@ -65,5 +65,6 @@ public class MyProgressBar extends ProgressBar {
 	private void setTextProgress(int progress) {
 		int i = (int) ((progress * 1.0f / this.getMax()) * 100);
 		this.text = title + " " + String.valueOf(i) + "%";
+		invalidate();
 	}
 }

@@ -143,7 +143,7 @@
                         android:layout_margin="@dimen/button_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/internal_temperature" />
+                        android:text="@string/internal_temperature_sample" />
 
                     <TextView
                         android:id="@+id/tv_sample_temperature"
@@ -152,7 +152,7 @@
                         android:layout_margin="@dimen/button_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/sample_temperature" />
+                        android:text="@string/sample_temperature_sample" />
 
                     <TextView
                         android:id="@+id/tv_external_temperature"
@@ -161,7 +161,7 @@
                         android:layout_margin="@dimen/button_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/external_temperature" />
+                        android:text="@string/external_temperature_sample" />
 
                     <com.android.jay.pandorabox.view.MyProgressBar
                         android:id="@+id/bar_ssr1"
