@@ -35,6 +35,8 @@
     <string name="internal_temperature_sample">箱内温度: 28.0℃</string>
     <string name="external_temperature_sample">外部温度: 28.0℃</string>
     <string name="sample_temperature_sample">样品温度: 28.0℃</string>
+    <string name="sample_temperature_title">样品温度:</string>
+    <string name="temp_unit">℃</string>
     <string name="ssr1">电磁阀1:</string>
     <string name="ssr2">电磁阀2:</string>
     <string name="heater">电热丝:</string>

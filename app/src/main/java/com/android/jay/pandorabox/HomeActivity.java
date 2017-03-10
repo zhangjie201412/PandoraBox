@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,9 +17,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.jay.pandorabox.Utils.Utils;
+import com.android.jay.pandorabox.ble.BtleListener;
+import com.android.jay.pandorabox.ble.BtleManager;
 import com.android.jay.pandorabox.view.MyProgressBar;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -28,12 +32,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -43,6 +50,8 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 @ContentView(R.layout.activity_home)
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String TAG = "Pandora";
 
     @ViewInject(R.id.nv_drawer)
     private NavigationView mNavigationView;
@@ -62,9 +71,74 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private MyProgressBar mHeater;
     @ViewInject(R.id.chart_main)
     private LineChart mLineChart;
+    @ViewInject(R.id.iv_ble_connect)
+    private ImageView mBluetoothImageView;
+    @ViewInject(R.id.tv_sample_temperature)
+    private TextView mSampleTextView;
+
+    private boolean mBluetoothConnected = false;
 
     private long mTime = 0;
     private boolean mIsOpen = false;
+    private static final String DEVICE_NAME = "CPLB";
+
+    private byte[] mBuffer;
+    private int mBufferIndex = 0;
+    //chart
+    private ArrayList<ILineDataSet> mDataSets;
+    private ArrayList<Entry> mVals1 = new ArrayList<>();
+    private LineDataSet mDataSet1;
+
+    private BtleListener mBtleListener = new BtleListener() {
+        @Override
+        public void onDeviceScan(String name, String addr) {
+            Log.d(TAG, "name = " + name + ", addr = " + addr);
+            if (name.startsWith(DEVICE_NAME)) {
+                BtleManager.getInstance().connect(addr);
+            }
+        }
+
+        @Override
+        public void onDeviceConnected() {
+            Log.d(TAG, "onDeviceConnected");
+            mBluetoothImageView.setImageResource(R.mipmap.ic_ble_connected);
+            mBluetoothConnected = true;
+        }
+
+        @Override
+        public void onDeviceDisconnected() {
+            Log.d(TAG, "onDeviceDisconnected");
+            mBluetoothImageView.setImageResource(R.mipmap.ic_ble_disconnected);
+            mBluetoothConnected = false;
+        }
+
+        @Override
+        public void onDataAvailable(byte[] data) {
+            for (int i = 0; i < data.length; i++) {
+                mBuffer[mBufferIndex++] = data[i];
+                if (data[i] == '}') {
+                    byte[] recvByte = Arrays.copyOfRange(mBuffer, 0, mBufferIndex);
+                    processData(recvByte);
+                    //clear buffer
+                    mBufferIndex = 0;
+                }
+            }
+        }
+    };
+
+    private void processData(byte[] recv) {
+        String recvString = new String(recv);
+        try {
+            JSONObject jsonObject = new JSONObject(recvString);
+            int insideTemp = jsonObject.getInt("inside_temp");
+            int sampleTemp = jsonObject.getInt("sample_temp");
+            int output1 = jsonObject.getInt("ssr1");
+            Log.d(TAG, "insideTemp = " + insideTemp + ", sampleTemp = " + sampleTemp + ", output1 = " + output1);
+            updateChart((float) sampleTemp / 1000, output1 / 1000);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +177,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mHeater.setProgress(0);
         mLineChart.setDescription(getString(R.string.setting_chart_description));
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        mBluetoothImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mBluetoothConnected) {
+                    Log.d(TAG, "start connect to ble device");
+                    BtleManager.getInstance().scan(true);
+                }
+
+            }
+        });
         initChart();
         checkPermissions();
+        BtleManager.getInstance().init(this);
+        BtleManager.getInstance().register(mBtleListener);
+        mBuffer = new byte[128];
     }
 
     private void initChart() {
@@ -117,21 +204,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         YAxis yAxis = mLineChart.getAxisLeft();
         yAxis.setAxisMinValue(-200);
         yAxis.setAxisMaxValue(100);
+        YAxis yAxis2 = mLineChart.getAxisRight();
+        yAxis2.setAxisMinValue(-200);
+        yAxis2.setAxisMaxValue(100);
 
-        ArrayList<Entry> values = new ArrayList<>();
-
-        LineDataSet dataSet;
-        dataSet = new LineDataSet(values, getString(R.string.temperature_unit));
-        dataSet.setColor(Color.GREEN);
-        dataSet.setCircleColor(Color.GREEN);
-        dataSet.setLineWidth(1f);
-        dataSet.setCircleRadius(0.5f);
-        dataSet.setDrawCircleHole(false);
-        dataSet.setValueTextSize(9f);
-        dataSet.setDrawFilled(false);
-        dataSet.setLineWidth(1f);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet);
+        mDataSet1 = new LineDataSet(mVals1, getString(R.string.temperature_unit));
+        mDataSet1.setColor(Color.GREEN);
+        mDataSet1.setCircleColor(Color.GREEN);
+        mDataSet1.setLineWidth(1f);
+        mDataSet1.setCircleRadius(0.5f);
+        mDataSet1.setDrawCircleHole(false);
+        mDataSet1.setValueTextSize(0.0f);
+        mDataSet1.setDrawFilled(false);
+        mDataSet1.setLineWidth(1f);
+        mDataSets = new ArrayList<>();
+        mDataSets.add(mDataSet1);
 
         Legend legend = mLineChart.getLegend();
         legend.setEnabled(true);
@@ -139,10 +226,33 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         legend.setForm(Legend.LegendForm.SQUARE);
         legend.setTextColor(Color.GREEN);
 
-        LineData data = new LineData(dataSets);
+        LineData data = new LineData(mDataSets);
 
         mLineChart.setData(data);
         mLineChart.invalidate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BtleManager.getInstance().release();
+    }
+
+
+    private void updateChart(float temp, int output1) {
+        float x, y;
+        x = (float) (mVals1.size()) / 60.0f;
+        y = temp;
+        Log.d(TAG, "x = " + x + ", y = " + y);
+        mVals1.add(new Entry(x, y));
+        mDataSet1.setValues(mVals1);
+        mLineChart.getData().notifyDataChanged();
+        mLineChart.notifyDataSetChanged();
+        mLineChart.invalidate();
+        //update textView
+        mSampleTextView.setText(getString(R.string.sample_temperature_title) + " " +
+                String.format("%.1f", temp) + getString(R.string.temp_unit));
+        mSsr1.setProgress(output1);
     }
 
     private static final int RC_ROOT = 102;
