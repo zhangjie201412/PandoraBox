@@ -150,6 +150,7 @@ public class BtleManager {
                         mLEScanner.stopScan(mScanCallback);
                     } else {
                         Log.d(TAG, "already connected");
+//                        mBluetoothLeService.disconnect();
                     }
                 }
             }, SCAN_PERIOD);
@@ -174,6 +175,7 @@ public class BtleManager {
                         mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     } else {
                         Log.d(TAG, "already connected");
+                        mBluetoothLeService.disconnect();
                     }
                 }
             }, SCAN_PERIOD);
@@ -194,8 +196,15 @@ public class BtleManager {
     }
 
     public void send(String data) {
-        Log.d(TAG, "JAY-> " + data);
-        mBluetoothLeService.send(data);
+//        Log.d(TAG, "JAY-> " + data);
+        String left = data;
+        int count = 0;
+        while((left.length() - 20 * count) > 20) {
+            String s = left.substring(count * 20, count * 20 + 20);
+            mBluetoothLeService.send(s);
+            count ++;
+        }
+        mBluetoothLeService.send(left.substring(count * 20));
     }
 
     private static IntentFilter makeGattUpdateIntentFilter() {

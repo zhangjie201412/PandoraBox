@@ -18,6 +18,8 @@
     <string name="title_time">时间[分钟]</string>
     <string name="setting_chart_description">单位: 分钟</string>
     <string name="temperature_unit">温度: ℃</string>
+    <string name="sample_temperature_unit">样品温度: ℃</string>
+    <string name="caculate_temperature_unit">计算温度: ℃</string>
     <string name="delete">删除</string>
     <string name="sure_to_delete">确定删除?</string>
     <string name="sure_to_exit">确定退出?</string>
@@ -25,16 +27,16 @@
     <string name="open">打开</string>
     <string name="stage">阶段</string>
     <string name="speed">速度</string>
-    <string name="target_temperature">目标温度</string>
-    <string name="keep_time">保持时间</string>
+    <string name="target_temperature">温度</string>
+    <string name="keep_time">时间</string>
     <string name="start">开始</string>
     <string name="stop">停止</string>
     <string name="internal_temperature">箱内温度</string>
     <string name="external_temperature">外部温度</string>
     <string name="sample_temperature">样品温度</string>
-    <string name="internal_temperature_sample">箱内温度: 28.0℃</string>
-    <string name="external_temperature_sample">外部温度: 28.0℃</string>
-    <string name="sample_temperature_sample">样品温度: 28.0℃</string>
+    <string name="internal_temperature_sample">箱内温度: --.-℃</string>
+    <string name="external_temperature_sample">外部温度: --.-℃</string>
+    <string name="sample_temperature_sample">样品温度: --.-℃</string>
     <string name="sample_temperature_title">样品温度:</string>
     <string name="temp_unit">℃</string>
     <string name="ssr1">电磁阀1:</string>
@@ -48,4 +50,8 @@
     <string name="notice_delete_done">删除成功</string>
     <string name="notice_save_done">保存成功</string>
     <string name="notice_apply_done">已应用为当前设置</string>
+    <string name="connecting_wait">连接中，请稍后...</string>
+    <string name="connect_success">连接成功</string>
+    <string name="notice_disconnect">未连接到设备</string>
+    <string name="notice_setting_null">请先设置参数</string>
 </resources>

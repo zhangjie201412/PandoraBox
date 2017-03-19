@@ -115,6 +115,7 @@ public class BluetoothLeService extends Service {
 
 		public void onCharacteristicWrite(BluetoothGatt gatt,
 				BluetoothGattCharacteristic characteristic, int status) {
+			Log.d(TAG, "status = " + status);
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				writeDone = true;
 			}
